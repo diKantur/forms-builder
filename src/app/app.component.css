@@ -1,0 +1,23 @@
+main {
+  display: flex;
+  height: 100vh;
+}
+
+section {
+  padding: 0.5rem;
+  min-width: 250px;
+  border: 1px solid #ccc;
+}
+
+.builder {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.addStyle {
+  display: flex;
+  flex-direction: column;
+}

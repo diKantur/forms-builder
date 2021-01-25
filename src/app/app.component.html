@@ -1,0 +1,38 @@
+<main>
+  <section class="styles">
+    <mat-accordion class="example-headers-align" multi>
+      <mat-expansion-panel *ngFor="let panel of accordionList; let idx = index">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ panel.title }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="addStyle">
+          {{ displayStyle(idx) }}
+          <input (keydown.enter)="changeStyle($event.target.value, idx)">
+        </div>
+      </mat-expansion-panel>
+
+      <!-- <mat-expansion-panel> </mat-expansion-panel> -->
+    </mat-accordion>
+  </section>
+
+  <section class="builder">
+    <form action="" [ngStyle]="accordionList[0].style">
+      <input type="text" [ngStyle]="accordionList[1].style">
+    </form>
+  </section>
+
+  <section class="elements">
+    <!-- <label for="">label <input type="text" /></label>
+    <button>Button</button>
+    <label for="">
+      <input type="checkbox" name="" id=""/>
+      label
+    </label>
+    <select name="" id="">
+      <option value="">Select</option>
+    </select>
+    <textarea name="" id="" cols="30" rows="10">Textarea</textarea> -->
+  </section>
+</main>
