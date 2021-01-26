@@ -9,7 +9,7 @@ section {
   border: 1px solid #ccc;
 }
 
-.builder {
+.builder, form {
   width: 100%;
   display: flex;
   flex-direction: column;
