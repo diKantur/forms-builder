@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {CdkDragDrop, moveItemInArray, copyArrayItem} from '@angular/cdk/drag-drop';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -7,10 +8,6 @@ import {CdkDragDrop, moveItemInArray, copyArrayItem} from '@angular/cdk/drag-dro
 })
 export class AppComponent {
   accordionList = [
-    { title: 'input', style: {}, value: 'input', type: 'text' },
-    { title: 'button', style: {}, value: 'button', type: 'button' },
-    { title: 'input2', style: {}, value: 'input2', type: 'number' },
-    { title: 'input3', style: {}, value: 'input3', type: 'data' },
   ];
   formProp = {
     style:{},
