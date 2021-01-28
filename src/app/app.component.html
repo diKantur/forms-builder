@@ -9,19 +9,19 @@
         </mat-expansion-panel-header>
         <div class="addStyle">
           {{ displayStyle(formProp.style) }}
-          <input (keydown.enter)="formProp.changeStyle($event.target.value)" />
+          <input (keydown.enter)="setValue($event.target.value)" />
         </div>
       </mat-expansion-panel>
 
-      <mat-expansion-panel *ngFor="let panel of accordionList; let idx = index">
+      <mat-expansion-panel *ngFor="let panel of formElementList; let idx = index">
         <mat-expansion-panel-header>
           <mat-panel-title>
             {{ panel.title }}
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="addStyle">
-          {{ displayStyle(accordionList[idx].style) }}
-          <input (keydown.enter)="changeStyle($event.target.value, idx)" />
+          {{ displayStyle(formElementList[idx].style) }}
+          <input (keydown.enter)="setValue($event.target.value, idx)" />
         </div>
       </mat-expansion-panel>
     </mat-accordion>
@@ -32,14 +32,14 @@
       [ngStyle]="formProp.style"
       cdkDropList
       #formList="cdkDropList"
-      [cdkDropListData]="accordionList"
+      [cdkDropListData]="formElementList"
       (cdkDropListDropped)="drop($event)"
     >
       <input
-        *ngFor="let item of accordionList; let i = index"
+        *ngFor="let item of formElementList; let i = index"
         cdkDrag
         type="{{item.type}}"
-        [ngStyle]="accordionList[i]?.style"
+        [ngStyle]="formElementList[i]?.style"
         value="{{item.value}}"
       />
     </form>

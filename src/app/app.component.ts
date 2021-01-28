@@ -7,7 +7,7 @@ import {CdkDragDrop, moveItemInArray, copyArrayItem} from '@angular/cdk/drag-dro
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  accordionList = [
+  formElementList = [
   ];
   formProp = {
     style:{},
@@ -24,12 +24,16 @@ export class AppComponent {
   displayStyle(val){
     return JSON.stringify(val)
   }
-  changeStyle(val, idx) {
-    val = val.split(';').map(v => v?.split(':'));
-    val.forEach(v => {
+  setValue(val, idx = '') {
+    console.log(val, idx, this.formElementList[idx]);
+
+    val = val.split(';').map((v) => v?.split(':'));
+    val?.forEach((v) => {
       v[0] = v[0].trim();
       v[1] = v[1].trim();
-      this.accordionList[idx].style[v[0]] = v[1];
+      idx !== ''
+        ? (this.formElementList[idx].style[v[0]] = v[1])
+        : (this.formProp.style[v[0]] = v[1]);
     });
   }
   formElements = [
