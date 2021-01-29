@@ -1,5 +1,12 @@
-import { Component } from '@angular/core';
-import {CdkDragDrop, moveItemInArray, copyArrayItem} from '@angular/cdk/drag-drop';
+import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  copyArrayItem,
+} from '@angular/cdk/drag-drop';
+import { Observable } from 'rxjs';
+import { setStyle, getStyle } from './core/actions/core.actions';
 
 @Component({
   selector: 'app-root',
@@ -7,52 +14,70 @@ import {CdkDragDrop, moveItemInArray, copyArrayItem} from '@angular/cdk/drag-dro
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  formElementList = [
-  ];
-  formProp = {
-    style:{},
-    changeStyle(val){
-      val = val.split(';').map(v => v?.split(':'));
-      val.forEach(v => {
-      v[0] = v[0].trim();
-      v[1] = v[1].trim();
-      this.style[v[0]] = v[1];
-    });
-    }
+  value$: Observable<any>;
+
+  sub = {
+    formProp: { style: {} },
+    formElementList: [],
+    elementList: [],
+  };
+
+  constructor(private store: Store<any>) {
+    this.value$ = store.select('value');
   }
 
-  displayStyle(val){
-    return JSON.stringify(val)
+  ngOnInit() {
+    this.value$.subscribe((v) => {
+      this.sub = {
+        ...this.sub,
+        formElementList: v.formElementList,
+        formProp: v.formProp,
+        elementList: v.elementList,
+      };
+    });
   }
+
+  displayStyle(idx = '') {
+    return idx === ''
+      ? this.sub.formProp.style
+      : this.sub.formElementList[idx].style;
+  }
+
   setValue(val, idx = '') {
-    console.log(val, idx, this.formElementList[idx]);
-
+    let obj = {};
     val = val.split(';').map((v) => v?.split(':'));
-    val?.forEach((v) => {
+    val?.map((v) => {
       v[0] = v[0].trim();
       v[1] = v[1].trim();
-      idx !== ''
-        ? (this.formElementList[idx].style[v[0]] = v[1])
-        : (this.formProp.style[v[0]] = v[1]);
+      switch (idx !== '') {
+        case true:
+          obj = { ...this.sub.formElementList[idx].style, [v[0]]: v[1] };
+          break;
+        case false:
+          obj = { ...this.sub.formProp.style, [v[0]]: v[1] };
+          break;
+      }
     });
+
+    this.store.dispatch(setStyle({ list: idx, data: obj }));
+
+    return obj;
   }
-  formElements = [
-    {title:'input', style: {}, value: 'input', type: 'text'},
-    {title:'button', style: {}, value: 'button', type: 'button'},
-    {title:'input2', style: {}, value: 'input2', type: 'text'},
-    {title:'input3', style: {}, value: 'input3', type: 'text'},
-    {title:'input4', style: {}, value: 'input4', type: 'text'},
-    {title:'input5', style: {}, value: 'input5', type: 'text'}
-  ];
 
   drop(event: any) {
     if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
     } else {
-      copyArrayItem(event.previousContainer.data,
-                        event.container.data,
-                        event.previousIndex,
-                        event.currentIndex);
+      copyArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
     }
   }
 }
