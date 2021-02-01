@@ -6,8 +6,8 @@
           <mat-panel-title> General styles </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="addStyle">
-          <pre>{{ displayStyle() | json }}</pre>
-          <input (keydown.enter)="setValue($event.target.value)" />
+          <pre>{{ sub.formProp.style | json }}</pre>
+          <input (keydown.enter)="onEnterClick($event.target.value)" />
         </div>
       </mat-expansion-panel>
 
@@ -20,8 +20,8 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="addStyle">
-          <pre>{{ displayStyle(idx) | json }}</pre>
-          <input (keydown.enter)="setValue($event.target.value, idx)" />
+          <pre>{{ sub.formElementList[idx].style | json }}</pre>
+          <input (keydown.enter)="onEnterClick($event.target.value, idx)" />
         </div>
       </mat-expansion-panel>
     </mat-accordion>

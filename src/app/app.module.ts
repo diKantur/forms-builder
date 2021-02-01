@@ -6,8 +6,10 @@ import { StoreModule } from '@ngrx/store';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { valueReducer } from './core/reducers/core.reducers';
+import { valueReducer } from './core/store/core.reducer';
 import { AppComponent } from './app.component';
+import { EffectsModule } from '@ngrx/effects';
+import { Effects } from './core/store/effects';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,6 +19,7 @@ import { AppComponent } from './app.component';
     MatExpansionModule,
     DragDropModule,
     StoreModule.forRoot({ value: valueReducer }),
+    EffectsModule.forRoot([Effects])
   ],
   providers: [],
   bootstrap: [AppComponent],
