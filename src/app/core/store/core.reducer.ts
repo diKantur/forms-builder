@@ -1,6 +1,6 @@
 import { state } from '@angular/animations';
 import { createReducer, on } from '@ngrx/store';
-import { setStyle, Actions } from './core.actions';
+import { Actions, ActionTypes } from './core.actions';
 
 export const INIT_STATE = {
   formElementList: [
@@ -20,35 +20,36 @@ export const INIT_STATE = {
   ],
 };
 
-function sw(state, list, data) {
+function switcher(state, { list, data }) {
   switch (list === '') {
     case true:
-      return {
-        ...state,
-        formProp: { ...data },
-      };
+      return { formProp: { ...data } };
     case false:
-      let one = {
-        ...state,
+      return {
         formElementList: [
           ...state.formElementList.map((v, i) =>
-            i === list ? { ...data } : { ...state.formElementList[i] }
+            i === list ? { ...data } : { ...v }
           ),
         ],
       };
-      console.log(one);
-
-      return one;
   }
 }
 
-const _valueReducer = createReducer(
-  INIT_STATE,
-  on(setStyle, (state, { list, data }) => {
-    return sw(state, list, data);
-  })
-);
-
-export function valueReducer(state, action) {
-  return _valueReducer(state, action);
+function drop(state, event) {
+  return {
+    formElementList: [...state.formElementList, state.elementList[event]],
+  };
 }
+
+export function reducer(state = INIT_STATE, action: Actions) {
+  switch (action.type) {
+    case ActionTypes.UpdateStyleAction:
+      return { ...state, ...switcher(state, { ...action.payload }) };
+    case ActionTypes.Drop:
+      return { ...state, ...drop(state, action.payload) };
+    default:
+      return state;
+  }
+}
+
+export const getState = (state) => state;
