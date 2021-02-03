@@ -35,18 +35,13 @@ function switcher(state, { list, data }) {
   }
 }
 
-function drop(state, event) {
-  return {
-    formElementList: [...state.formElementList, state.elementList[event]],
-  };
-}
-
 export function reducer(state = INIT_STATE, action: Actions) {
   switch (action.type) {
     case ActionTypes.UpdateStyleAction:
       return { ...state, ...switcher(state, { ...action.payload }) };
     case ActionTypes.Drop:
-      return { ...state, ...drop(state, action.payload) };
+
+      return { ...state, ...action.payload };
     default:
       return state;
   }

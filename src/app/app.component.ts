@@ -26,7 +26,9 @@ export class AppComponent {
   ngOnInit() {
     this.value$ = this.store.select(getState);
     this.value$.subscribe((v) => {
-      this.sub = { ...v };
+      this.sub.formProp={ style: {...v.formProp.style} }
+      this.sub.formElementList=[...v.formElementList.map(v=>v)]
+      this.sub.elementList=[...v.elementList.map(v=>v)]
     });
   }
 
@@ -49,6 +51,22 @@ export class AppComponent {
   }
 
   drop(event: any) {
-    this.store.dispatch(new DropAction(event.previousIndex));
+    if (event.previousContainer === event.container) {
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    } else {
+      copyArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    }
+    this.store.dispatch(
+      new DropAction({...this.sub})
+    );
   }
 }
