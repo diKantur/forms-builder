@@ -1,15 +1,11 @@
-import { Params } from '@angular/router';
-import { ActionReducerMap, createSelector, MetaReducer } from '@ngrx/store';
+import { ActionReducerMap, createSelector } from '@ngrx/store';
 
 import * as fromCore from './core.reducer';
 
 export const reducers: ActionReducerMap<any> = {
-  core: fromCore.reducer
+  core: fromCore.reducer,
 };
 
 export const getCoreState = (state) => state.core;
 
-export const getState = createSelector(
-  getCoreState,
-  fromCore.getState
-);
+export const getState = createSelector(getCoreState, fromCore.getState);

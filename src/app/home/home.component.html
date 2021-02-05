@@ -1,0 +1,75 @@
+<main class="main">
+  <section class="styles">
+    <mat-accordion class="example-headers-align" multi>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title> General styles </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="addStyle">
+          <pre>{{ sub.formProp.style | json }}</pre>
+          <input (keydown.enter)="onEnterClick($event.target.value)" />
+        </div>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel
+        *ngFor="let panel of sub.formElementList; let idx = index"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ panel.title }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="addStyle">
+          <pre>{{ sub.formElementList[idx].style | json }}</pre>
+          <input (keydown.enter)="onEnterClick($event.target.value, idx)" />
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </section>
+
+  <section class="builder">
+    <form
+      [ngStyle]="sub.formProp.style"
+      cdkDropList
+      #formList="cdkDropList"
+      [cdkDropListData]="sub.formElementList"
+      (cdkDropListDropped)="drop($event)"
+    >
+      <input
+        *ngFor="let item of sub.formElementList; let i = index"
+        cdkDrag
+        type="{{ item.type }}"
+        [ngStyle]="sub.formElementList[i]?.style"
+        value="{{ item.value }}"
+      />
+    </form>
+  </section>
+
+  <section class="elements">
+    <form
+      cdkDropList
+      cdkDropListSortingDisabled
+      #todoList="cdkDropList"
+      [cdkDropListData]="sub.elementList"
+      [cdkDropListConnectedTo]="[formList]"
+      (cdkDropListDropped)="drop($event)"
+    >
+      <input
+        *ngFor="let item of sub.elementList"
+        cdkDrag
+        type="{{ item.type }}"
+        value="{{ item.value }}"
+      />
+    </form>
+    <!-- <label for="">label <input type="text" /></label>
+    <button>Button</button>
+    <label for="">
+      <input type="checkbox" name="" id=""/>
+      label
+    </label>
+    <select name="" id="">
+      <option value="">Select</option>
+    </select>
+    <textarea name="" id="" cols="30" rows="10">Textarea</textarea> -->
+  </section>
+</main>

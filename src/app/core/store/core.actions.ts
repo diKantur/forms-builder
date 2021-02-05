@@ -1,5 +1,4 @@
 import { Action } from '@ngrx/store';
-import { createAction, props } from '@ngrx/store';
 
 export enum ActionTypes {
   UpdateStyleAction = '[App] UpdateStyleAction',

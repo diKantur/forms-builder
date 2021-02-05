@@ -1,5 +1,3 @@
-import { state } from '@angular/animations';
-import { createReducer, on } from '@ngrx/store';
 import { Actions, ActionTypes } from './core.actions';
 
 export const INIT_STATE = {
@@ -40,7 +38,6 @@ export function reducer(state = INIT_STATE, action: Actions) {
     case ActionTypes.UpdateStyleAction:
       return { ...state, ...switcher(state, { ...action.payload }) };
     case ActionTypes.Drop:
-
       return { ...state, ...action.payload };
     default:
       return state;
