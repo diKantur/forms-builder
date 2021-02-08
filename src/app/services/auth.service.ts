@@ -3,17 +3,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as moment from 'moment';
 import { map, shareReplay, tap } from 'rxjs/operators';
 
-let URL = 'http://localhost:3000';
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-};
+let URL = 'http://127.0.0.1:4201';
 @Injectable()
 export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string) {
     return this.http
-      .post(URL + '/signin', { email, password }, httpOptions)
+      .post(URL + '/signin', { email, password })
       .pipe(
         map((res) => {
           console.log(res);
@@ -26,7 +23,7 @@ export class AuthService {
 
   register(email, password) {
     return this.http
-      .post(URL + '/signup', { email, password }, httpOptions)
+      .post(URL + '/signup', { email, password })
       .pipe(
         map((res) => {
           console.log(res);

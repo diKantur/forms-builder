@@ -28,11 +28,11 @@ export class LoginComponent {
     const val = this.loginForm.value;
 
     if (val.email && val.password) {
-      // this.authService.login(val.email, val.password).subscribe(() => {
+      this.authService.login(val.email, val.password).subscribe(() => {
       console.log('User is logged in');
       this.authService.logIn(true);
       this.router.navigateByUrl('/');
-      // });
+      });
     }
   }
 
@@ -41,9 +41,9 @@ export class LoginComponent {
 
     if (val.email && val.password) {
       console.log('Success');
-      // this.authService.register(val.email, val.password).subscribe(()=>{
+      this.authService.register(val.email, val.password).subscribe(()=>{
       this.router.navigateByUrl('/');
-      // })
+      })
     }
   }
 }

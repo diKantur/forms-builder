@@ -9,10 +9,8 @@ import { AuthService } from './services/auth.service';
 export class AppComponent {
   constructor(public authService: AuthService, private router: Router) {}
   logout() {
-    // this.authService.logout().subscribe(() => {
-    console.log('User is logged out');
-    this.authService.logIn(false);
-    this.router.navigateByUrl('/login');
-    // });
+      console.log('User is logged out');
+      this.authService.logIn(false);
+      this.router.navigateByUrl('/login');
   }
 }

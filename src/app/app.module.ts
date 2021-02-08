@@ -18,6 +18,7 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './services/auth.guard';
 import { AuthService } from './services/auth.service';
+import { AuthInterceptor } from './auth.interceptor';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, HomeComponent],
@@ -36,7 +37,7 @@ import { AuthService } from './services/auth.service';
     MatButtonModule,
     MatToolbarModule,
   ],
-  providers: [AuthGuard, AuthService],
+  providers: [AuthGuard, AuthService, AuthInterceptor],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
