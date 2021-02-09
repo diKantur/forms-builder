@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { Actions, createEffect } from '@ngrx/effects';
+import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
 import { ActionTypes, UpdateStyleAction, DropAction } from './core.actions';
 import { of } from 'rxjs';
 @Injectable()
@@ -9,7 +9,7 @@ export class Effects {
 
   onEnter$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ActionTypes.Enter),
+      filter((action) => ActionTypes.Enter === action.type),
       map((action: any) => this.switcher(action)),
       switchMap((action) => of(new UpdateStyleAction(action)))
     )

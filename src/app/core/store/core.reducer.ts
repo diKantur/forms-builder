@@ -10,7 +10,7 @@ export const INIT_STATE = {
   },
   elementList: [
     { title: 'input', style: {}, value: 'input', type: 'text' },
-    { title: 'button', style: {}, value: 'button', type: 'button' },
+    { title: 'button', style: {}, value: 'button', type: 'text' },
     { title: 'input2', style: {}, value: 'input2', type: 'text' },
     { title: 'input3', style: {}, value: 'input3', type: 'text' },
     { title: 'input4', style: {}, value: 'input4', type: 'text' },

@@ -9,27 +9,14 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string) {
-    return this.http
-      .post(URL + '/signin', { email, password })
-      .pipe(
-        map((res) => {
-          console.log(res);
-          return res;
-        }),
-        tap((res) => this.setSession(res)),
-        shareReplay()
-      );
+    return this.http.post(URL + '/signin', { email, password }).pipe(
+      tap((res) => this.setSession(res)),
+      shareReplay()
+    );
   }
 
   register(email, password) {
-    return this.http
-      .post(URL + '/signup', { email, password })
-      .pipe(
-        map((res) => {
-          console.log(res);
-          return res;
-        })
-      );
+    return this.http.post(URL + '/signup', { email, password })
   }
 
   private setSession(authResult) {
