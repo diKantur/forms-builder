@@ -17,7 +17,7 @@
       >
         <mat-expansion-panel-header>
           <mat-panel-title>
-            {{ panel.title }}
+            {{ panel.type }}
           </mat-panel-title>
         </mat-expansion-panel-header>
 
@@ -45,11 +45,10 @@
         *ngFor="let item of sub.formElementList; let i = index"
         cdkDrag
       >
-        <mat-label>{{ item.value | json }}</mat-label>
+        <mat-label>{{ item.type | json }}</mat-label>
         <input
           cdkDrag
           matInput
-          type="{{ item.type }}"
           [ngStyle]="sub.formElementList[i]?.style"
           (keydown.enter)="onEnterClick($event.target.value)"
         />
@@ -67,12 +66,8 @@
       (cdkDropListDropped)="drop($event)"
     >
       <mat-form-field *ngFor="let item of sub.elementList" cdkDrag>
-        <mat-label>{{ item.value | json }}</mat-label>
-        <input
-          matInput
-          type="{{ item.type }}"
-          (keydown.enter)="onEnterClick($event.target.value)"
-        />
+        <mat-label>{{ item.type | json }}</mat-label>
+        <input matInput (keydown.enter)="onEnterClick($event.target.value)" />
       </mat-form-field>
     </form>
   </section>

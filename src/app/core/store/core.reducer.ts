@@ -1,24 +1,20 @@
 import { Actions, ActionTypes } from './core.actions';
 
 export const INIT_STATE = {
-  formElementList: [
-    { title: 'input', style: {}, value: 'input', type: 'text' },
-    { title: 'input2', style: {}, value: 'input2', type: 'text' },
-  ],
+  formElementList: [],
   formProp: {
     style: {},
   },
   elementList: [
-    { title: 'input', style: {}, value: 'input', type: 'text' },
-    { title: 'button', style: {}, value: 'button', type: 'text' },
-    { title: 'input2', style: {}, value: 'input2', type: 'text' },
-    { title: 'input3', style: {}, value: 'input3', type: 'text' },
-    { title: 'input4', style: {}, value: 'input4', type: 'text' },
-    { title: 'input5', style: {}, value: 'input5', type: 'text' },
+    { style: {}, type: 'input' },
+    { style: {}, type: 'button' },
+    { style: {}, type: 'checkbox' },
+    { style: {}, type: 'select' },
+    { style: {}, type: 'textarea' },
   ],
 };
 
-function switcher(state, { list, data }) {
+function switcher(state, { list, data }): any {
   switch (list === '') {
     case true:
       return { formProp: { ...data } };
@@ -33,7 +29,7 @@ function switcher(state, { list, data }) {
   }
 }
 
-export function reducer(state = INIT_STATE, action: Actions) {
+export function reducer(state = INIT_STATE, action: Actions): any {
   switch (action.type) {
     case ActionTypes.UpdateStyleAction:
       return { ...state, ...switcher(state, { ...action.payload }) };

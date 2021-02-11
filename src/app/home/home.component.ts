@@ -1,22 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { moveItemInArray, copyArrayItem } from '@angular/cdk/drag-drop';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
 import { FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import { DropAction, EnterAction } from '../core/store/core.actions';
 import { getState } from '../core/store/index';
-
+import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   value$: Observable<any>;
   form: FormGroup;
+  destroy$ = new Subject<void>();
 
   sub = {
     formProp: { style: {} },
@@ -28,18 +27,23 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.value$ = this.store.select(getState);
-    this.value$.subscribe((v) => {
+    this.value$.pipe(takeUntil(this.destroy$)).subscribe((v: any) => {
       this.sub.formProp = { style: { ...v.formProp.style } };
-      this.sub.formElementList = [...v.formElementList.map((v) => v)];
-      this.sub.elementList = [...v.elementList.map((v) => v)];
+      this.sub.formElementList = [...v.formElementList.map((val: any) => val)];
+      this.sub.elementList = [...v.elementList.map((val: any) => val)];
     });
   }
 
-  onEnterClick(val, idx = '') {
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  onEnterClick(val, idx = ''): void {
     let obj = {};
 
     val = val.split(';').map((v) => v?.split(':').map((e) => e.trim()));
-    val?.map((v) => {
+    val?.map((v: any[]) => {
       switch (idx !== '') {
         case true:
           obj = { ...this.sub.formElementList[idx], style: { [v[0]]: v[1] } };
@@ -53,7 +57,7 @@ export class HomeComponent implements OnInit {
     this.store.dispatch(new EnterAction({ list: idx, data: obj }));
   }
 
-  drop(event: any) {
+  drop(event: any): void {
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,

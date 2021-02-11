@@ -1,37 +1,39 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import * as moment from 'moment';
-import { map, shareReplay, tap } from 'rxjs/operators';
+import { shareReplay, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
-let URL = 'http://127.0.0.1:4201';
+const URL = 'http://127.0.0.1:4201';
 @Injectable()
 export class AuthService {
+  isLogged = false;
+
   constructor(private http: HttpClient) {}
 
-  login(email: string, password: string) {
+  login(email: string, password: string): Observable<object> {
     return this.http.post(URL + '/signin', { email, password }).pipe(
       tap((res) => this.setSession(res)),
       shareReplay()
     );
   }
 
-  register(email, password) {
-    return this.http.post(URL + '/signup', { email, password })
+  register(email, password): Observable<object> {
+    return this.http.post(URL + '/signup', { email, password });
   }
 
-  private setSession(authResult) {
+  private setSession(authResult): void {
     const expiresAt = moment().add(2, 'hours');
 
     localStorage.setItem('id_token', authResult.accessToken);
     localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()));
   }
 
-  logout() {
+  logout(): void {
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
   }
-  isLogged = false;
-  public logIn(isLoggedIn) {
+  public logIn(isLoggedIn): void {
     if (isLoggedIn) {
       this.isLogged = true;
     } else {
@@ -39,15 +41,15 @@ export class AuthService {
     }
   }
 
-  public isLoggedIn() {
+  public isLoggedIn(): boolean {
     return moment().isBefore(this.getExpiration());
   }
 
-  isLoggedOut() {
+  isLoggedOut(): boolean {
     return !this.isLoggedIn();
   }
 
-  getExpiration() {
+  getExpiration(): moment.Moment {
     const expiration = localStorage.getItem('expires_at');
     const expiresAt = JSON.parse(expiration);
     return moment(expiresAt);

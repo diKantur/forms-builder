@@ -15,7 +15,7 @@ export class Effects {
     )
   );
 
-  switcher(action) {
+  switcher(action): any {
     switch (true) {
       case action.type === ActionTypes.Drop:
         of(new DropAction(action.payload));
