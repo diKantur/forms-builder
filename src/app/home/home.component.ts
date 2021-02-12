@@ -1,4 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { moveItemInArray, copyArrayItem } from '@angular/cdk/drag-drop';
 import { FormGroup } from '@angular/forms';
@@ -11,6 +16,7 @@ import { takeUntil } from 'rxjs/operators';
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit, OnDestroy {
   value$: Observable<any>;
