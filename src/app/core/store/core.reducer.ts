@@ -2,9 +2,7 @@ import { Actions, ActionTypes } from './core.actions';
 
 export const INIT_STATE = {
   formElementList: [],
-  formProp: {
-    style: {},
-  },
+  formStyle: {},
   elementList: [
     { style: {}, type: 'input' },
     { style: {}, type: 'button' },
@@ -17,7 +15,7 @@ export const INIT_STATE = {
 function switcher(state, { list, data }): any {
   switch (list === '') {
     case true:
-      return { formProp: { ...data } };
+      return { formStyle: { ...data } };
     case false:
       return {
         formElementList: [
@@ -41,3 +39,6 @@ export function reducer(state = INIT_STATE, action: Actions): any {
 }
 
 export const getState = (state) => state;
+export const getElementList = (state) => state.elementList;
+export const getFormElementList = (state) => state.formElementList;
+export const getFormStyle = (state) => state.formStyle;

@@ -10,7 +10,11 @@ import { FormGroup } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 
 import { DropAction, EnterAction } from '../core/store/core.actions';
-import { getState } from '../core/store/index';
+import {
+  getElementList,
+  getFormElementList,
+  getFormStyle,
+} from '../core/store/index';
 import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-home',
@@ -19,24 +23,23 @@ import { takeUntil } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  value$: Observable<any>;
   form: FormGroup;
   destroy$ = new Subject<void>();
 
-  sub = {
-    formProp: { style: {} },
-    formElementList: [],
-    elementList: [],
-  };
+  formElementList = [];
+  formStyle$: Observable<any>;
+  formElementList$: Observable<any>;
+  elementList$: Observable<any>;
 
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.value$ = this.store.select(getState);
-    this.value$.pipe(takeUntil(this.destroy$)).subscribe((v: any) => {
-      this.sub.formProp = { style: { ...v.formProp.style } };
-      this.sub.formElementList = [...v.formElementList.map((val: any) => val)];
-      this.sub.elementList = [...v.elementList.map((val: any) => val)];
+    this.formStyle$ = this.store.select(getFormStyle);
+    this.formElementList$ = this.store.select(getFormElementList);
+    this.elementList$ = this.store.select(getElementList);
+
+    this.formElementList$.pipe(takeUntil(this.destroy$)).subscribe((v: any) => {
+      this.formElementList = [...v.map((val: any) => val)];
     });
   }
 
@@ -52,10 +55,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     val?.map((v: any[]) => {
       switch (idx !== '') {
         case true:
-          obj = { ...this.sub.formElementList[idx], style: { [v[0]]: v[1] } };
+          obj = { ...this.formElementList[idx], style: { [v[0]]: v[1] } };
           break;
         case false:
-          obj = { ...this.sub.formProp, style: { [v[0]]: v[1] } };
+          obj = { [v[0]]: v[1] };
           break;
       }
     });
@@ -78,6 +81,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         event.currentIndex
       );
     }
-    this.store.dispatch(new DropAction({ ...this.sub }));
+    this.store.dispatch(
+      new DropAction({ formElementList: [...this.formElementList] })
+    );
   }
 }

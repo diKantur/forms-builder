@@ -12,7 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule, routes } from './app-routing.module';
 import { Effects } from './core/store/core.effects';
 import { reducers } from './core/store';
 import { LoginComponent } from './login/login.component';
@@ -21,9 +21,19 @@ import { AuthGuard } from './services/auth.guard';
 import { AuthService } from './services/auth.service';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { MatInputModule } from '@angular/material/input';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { RouterModule } from '@angular/router';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
+import { FormCheckingComponent } from './form-checking/form-checking.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    HomeComponent,
+    FormCheckingComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -41,6 +51,10 @@ import { MatInputModule } from '@angular/material/input';
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    ReactiveComponentModule,
+    // RouterModule.forRoot(routes),
+    MatCheckboxModule,
+    MatSelectModule,
   ],
   providers: [AuthGuard, AuthService, AuthInterceptor],
   bootstrap: [AppComponent],

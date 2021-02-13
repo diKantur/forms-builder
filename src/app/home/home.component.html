@@ -1,11 +1,11 @@
 <main class="main">
   <section class="styles">
-    <mat-accordion class="example-headers-align" multi>
+    <mat-accordion class="example-headers-align" multi="false">
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title> General styles </mat-panel-title>
         </mat-expansion-panel-header>
-        {{ sub.formProp.style | json }}
+        {{ formStyle$ | ngrxPush | json }}
         <mat-form-field>
           <mat-label>Styles</mat-label>
           <input matInput (keydown.enter)="onEnterClick($event.target.value)" />
@@ -13,7 +13,7 @@
       </mat-expansion-panel>
 
       <mat-expansion-panel
-        *ngFor="let panel of sub.formElementList; let idx = index"
+        *ngFor="let panel of formElementList$ | ngrxPush; let idx = index"
       >
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -21,7 +21,7 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
 
-        {{ sub.formElementList[idx].style | json }}
+        {{ panel.style | json }}
         <mat-form-field>
           <mat-label>Styles</mat-label>
           <input
@@ -35,24 +35,18 @@
 
   <section class="builder">
     <form
-      [ngStyle]="sub.formProp.style"
+      [ngStyle]="formStyle$ | ngrxPush"
       cdkDropList
       #formList="cdkDropList"
-      [cdkDropListData]="sub.formElementList"
+      [cdkDropListData]="formElementList"
       (cdkDropListDropped)="drop($event)"
     >
-      <mat-form-field
-        *ngFor="let item of sub.formElementList; let i = index"
-        cdkDrag
+      <app-form-checking
+        *ngFor="let item of formElementList$ | ngrxPush"
+        [type]="item.type"
+        [style]="item.style"
       >
-        <mat-label>{{ item.type | json }}</mat-label>
-        <input
-          cdkDrag
-          matInput
-          [ngStyle]="sub.formElementList[i]?.style"
-          (keydown.enter)="onEnterClick($event.target.value)"
-        />
-      </mat-form-field>
+      </app-form-checking>
     </form>
   </section>
 
@@ -61,14 +55,14 @@
       cdkDropList
       cdkDropListSortingDisabled
       #todoList="cdkDropList"
-      [cdkDropListData]="sub.elementList"
+      [cdkDropListData]="elementList$ | ngrxPush"
       [cdkDropListConnectedTo]="[formList]"
       (cdkDropListDropped)="drop($event)"
     >
-      <mat-form-field *ngFor="let item of sub.elementList" cdkDrag>
-        <mat-label>{{ item.type | json }}</mat-label>
-        <input matInput (keydown.enter)="onEnterClick($event.target.value)" />
-      </mat-form-field>
+      <app-form-checking
+        *ngFor="let item of elementList$ | ngrxPush"
+        [type]="item.type"
+      ></app-form-checking>
     </form>
   </section>
 </main>

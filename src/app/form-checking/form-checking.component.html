@@ -1,0 +1,35 @@
+<ng-container *ngIf="type === 'input'">
+  <mat-form-field cdkDrag [ngStyle]="style">
+    <mat-label>input</mat-label>
+    <input matInput />
+  </mat-form-field>
+</ng-container>
+
+<ng-container *ngIf="type === 'button'">
+  <button mat-flat-button color="primary" cdkDrag [ngStyle]="style">
+    button
+  </button>
+</ng-container>
+
+<ng-container *ngIf="type === 'checkbox'">
+  <mat-checkbox color="primary" cdkDrag [ngStyle]="style">
+    checkbox
+  </mat-checkbox>
+  <!-- [formControl]="hideRequiredControl" -->
+</ng-container>
+
+<ng-container *ngIf="type === 'select'">
+  <mat-form-field>
+    <mat-label>select</mat-label>
+    <mat-select cdkDrag [ngStyle]="style">
+      <mat-option value="option">option</mat-option>
+    </mat-select>
+  </mat-form-field>
+</ng-container>
+
+<ng-container *ngIf="type === 'textarea'">
+  <mat-form-field cdkDrag>
+    <mat-label>textarea</mat-label>
+    <textarea matInput [ngStyle]="style"></textarea>
+  </mat-form-field>
+</ng-container>
