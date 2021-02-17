@@ -16,7 +16,7 @@ import {
 } from '../core/store/index';
 import { takeUntil } from 'rxjs/operators';
 import { PortalService } from '../services/portal.service';
-import { ComponentPortal } from '@angular/cdk/portal';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -26,11 +26,15 @@ import { ComponentPortal } from '@angular/cdk/portal';
 export class HomeComponent implements OnInit, OnDestroy {
   destroy$ = new Subject<void>();
 
-  formElementList = [];
   formStyle$: Observable<any>;
+  formStyle = {};
+
   formElementList$: Observable<any>;
+  formElementList = [];
+
   elementList$: Observable<any>;
-  portalOutlet: ComponentPortal<any>;
+
+  portalOutlet;
 
   constructor(private store: Store, public portalService: PortalService) {}
 
@@ -42,9 +46,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.formElementList$.pipe(takeUntil(this.destroy$)).subscribe((v: any) => {
       this.formElementList = [...v.map((val: any) => val)];
     });
+    this.formStyle$.pipe(takeUntil(this.destroy$)).subscribe((v: any) => {
+      this.formStyle = { ...v };
+    });
+
     this.portalService.portal$.pipe(takeUntil(this.destroy$)).subscribe((v) => {
-      console.log(v);
-      console.log(this.portalOutlet);
+      this.portalOutlet = v;
     });
   }
 
@@ -54,21 +61,21 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onEnterClick(val, idx = ''): void {
-    let obj = {};
+    let obj = this.switch(idx);
 
-    val = val.split(';').map((v) => v?.split(':').map((e) => e.trim()));
+    val = val
+      .split(';')
+      .map((v: string) => v?.split(':').map((e: string) => e.trim()));
+
     val?.map((v: any[]) => {
-      switch (idx !== '') {
-        case true:
-          obj = { ...this.formElementList[idx], style: { [v[0]]: v[1] } };
-          break;
-        case false:
-          obj = { [v[0]]: v[1] };
-          break;
-      }
+      obj = { ...obj, [v[0]]: v[1] };
     });
 
     this.store.dispatch(new EnterAction({ list: idx, data: obj }));
+  }
+
+  switch(idx) {
+    return idx === '' ? this.formStyle : this.formElementList[idx].style;
   }
 
   drop(event: any): void {

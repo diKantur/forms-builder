@@ -10,22 +10,8 @@ export class Effects {
   onEnter$ = createEffect(() =>
     this.actions$.pipe(
       filter((action) => ActionTypes.Enter === action.type),
-      map((action: any) => this.switcher(action)),
+      map((action: any) => action.payload),
       switchMap((action) => of(new UpdateStyleAction(action)))
     )
   );
-
-  switcher(action): any {
-    switch (true) {
-      case action.type === ActionTypes.Drop:
-        of(new DropAction(action.payload));
-        return action;
-
-      case action.type === ActionTypes.Enter:
-        return action.payload;
-
-      default:
-        break;
-    }
-  }
 }

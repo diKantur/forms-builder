@@ -4,7 +4,11 @@
     <input matInput />
   </mat-form-field>
 
-  <app-form-settings [item]="item" *ngIf="idx"></app-form-settings>
+  <app-form-settings
+    [item]="item.style"
+    *ngIf="idx"
+    [idx]="idx"
+  ></app-form-settings>
 </ng-container>
 
 <ng-container *ngIf="item.type === 'button'">
@@ -12,7 +16,11 @@
     button
   </button>
 
-  <app-form-settings [item]="item" *ngIf="idx"></app-form-settings>
+  <app-form-settings
+    [item]="item.style"
+    *ngIf="idx"
+    [idx]="idx"
+  ></app-form-settings>
 </ng-container>
 
 <ng-container *ngIf="item.type === 'checkbox'">
@@ -20,7 +28,11 @@
     checkbox
   </mat-checkbox>
 
-  <app-form-settings [item]="item" *ngIf="idx"></app-form-settings>
+  <app-form-settings
+    [item]="item.style"
+    *ngIf="idx"
+    [idx]="idx"
+  ></app-form-settings>
 </ng-container>
 
 <ng-container *ngIf="item.type === 'select'">
@@ -31,7 +43,11 @@
     </mat-select>
   </mat-form-field>
 
-  <app-form-settings [item]="item" *ngIf="idx"></app-form-settings>
+  <app-form-settings
+    [item]="item.style"
+    *ngIf="idx"
+    [idx]="idx"
+  ></app-form-settings>
 </ng-container>
 
 <ng-container *ngIf="item.type === 'textarea'">
@@ -40,5 +56,9 @@
     <textarea matInput [ngStyle]="item.style"></textarea>
   </mat-form-field>
 
-  <app-form-settings [item]="item" *ngIf="idx"></app-form-settings>
+  <app-form-settings
+    [item]="item.style"
+    *ngIf="idx"
+    [idx]="idx"
+  ></app-form-settings>
 </ng-container>

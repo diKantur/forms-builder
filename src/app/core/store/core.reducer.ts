@@ -19,9 +19,13 @@ function switcher(state, { list, data }): any {
     case false:
       return {
         formElementList: [
-          ...state.formElementList.map((v, i) =>
-            i === list ? { ...data } : { ...v }
-          ),
+          ...state.formElementList.map((v: any, i: any) => {
+            if (i === list) {
+              return { ...v, style: { ...data } };
+            } else {
+              return v;
+            }
+          }),
         ],
       };
   }
