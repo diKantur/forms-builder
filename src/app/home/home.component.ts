@@ -6,7 +6,6 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { moveItemInArray, copyArrayItem } from '@angular/cdk/drag-drop';
-import { FormGroup } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 
 import { DropAction, EnterAction } from '../core/store/core.actions';
@@ -16,6 +15,8 @@ import {
   getFormStyle,
 } from '../core/store/index';
 import { takeUntil } from 'rxjs/operators';
+import { PortalService } from '../services/portal.service';
+import { ComponentPortal } from '@angular/cdk/portal';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -23,15 +24,15 @@ import { takeUntil } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  form: FormGroup;
   destroy$ = new Subject<void>();
 
   formElementList = [];
   formStyle$: Observable<any>;
   formElementList$: Observable<any>;
   elementList$: Observable<any>;
+  portalOutlet: ComponentPortal<any>;
 
-  constructor(private store: Store) {}
+  constructor(private store: Store, public portalService: PortalService) {}
 
   ngOnInit(): void {
     this.formStyle$ = this.store.select(getFormStyle);
@@ -40,6 +41,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     this.formElementList$.pipe(takeUntil(this.destroy$)).subscribe((v: any) => {
       this.formElementList = [...v.map((val: any) => val)];
+    });
+    this.portalService.portal$.pipe(takeUntil(this.destroy$)).subscribe((v) => {
+      console.log(v);
+      console.log(this.portalOutlet);
     });
   }
 

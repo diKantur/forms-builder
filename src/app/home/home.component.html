@@ -1,35 +1,45 @@
 <main class="main">
   <section class="styles">
-    <mat-accordion class="example-headers-align" multi="false">
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title> General styles </mat-panel-title>
-        </mat-expansion-panel-header>
-        {{ formStyle$ | ngrxPush | json }}
-        <mat-form-field>
-          <mat-label>Styles</mat-label>
-          <input matInput (keydown.enter)="onEnterClick($event.target.value)" />
-        </mat-form-field>
-      </mat-expansion-panel>
+    <mat-accordion>
+      <ng-container *ngrxLet="portalService.portal$; let portal">
+        <ng-container *ngIf="!portal">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title> General styles </mat-panel-title>
+            </mat-expansion-panel-header>
+            {{ formStyle$ | ngrxPush | json }}
+            <mat-form-field>
+              <mat-label>Styles</mat-label>
+              <input
+                matInput
+                (keydown.enter)="onEnterClick($event.target.value)"
+              />
+            </mat-form-field>
+          </mat-expansion-panel>
+        </ng-container>
 
-      <mat-expansion-panel
-        *ngFor="let panel of formElementList$ | ngrxPush; let idx = index"
-      >
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            {{ panel.type }}
-          </mat-panel-title>
-        </mat-expansion-panel-header>
+        <ng-container *ngIf="portal">
+          <mat-expansion-panel
+            *ngFor="let panel of formElementList$ | ngrxPush; let idx = index"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{ panel.type }}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
 
-        {{ panel.style | json }}
-        <mat-form-field>
-          <mat-label>Styles</mat-label>
-          <input
-            matInput
-            (keydown.enter)="onEnterClick($event.target.value, idx)"
-          />
-        </mat-form-field>
-      </mat-expansion-panel>
+            <ng-template [cdkPortalOutlet]="portalOutlet"></ng-template>
+
+            <mat-form-field>
+              <mat-label>Styles</mat-label>
+              <input
+                matInput
+                (keydown.enter)="onEnterClick($event.target.value, idx)"
+              />
+            </mat-form-field>
+          </mat-expansion-panel>
+        </ng-container>
+      </ng-container>
     </mat-accordion>
   </section>
 
@@ -42,9 +52,9 @@
       (cdkDropListDropped)="drop($event)"
     >
       <app-form-checking
-        *ngFor="let item of formElementList$ | ngrxPush"
-        [type]="item.type"
-        [style]="item.style"
+        *ngFor="let item of formElementList$ | ngrxPush; let idx = index"
+        [item]="item"
+        [idx]="idx"
       >
       </app-form-checking>
     </form>
@@ -61,7 +71,7 @@
     >
       <app-form-checking
         *ngFor="let item of elementList$ | ngrxPush"
-        [type]="item.type"
+        [item]="item"
       ></app-form-checking>
     </form>
   </section>

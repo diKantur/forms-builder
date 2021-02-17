@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-form-checking',
@@ -6,8 +7,8 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./form-checking.component.css'],
 })
 export class FormCheckingComponent implements OnInit {
-  @Input('type') type;
-  @Input('style') style;
+  @Input() item;
+  @Input() idx;
 
   constructor() {}
 
