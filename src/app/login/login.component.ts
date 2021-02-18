@@ -5,9 +5,9 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { LoginAction, RegisterAction } from '../core/store/core.actions';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     public authService: AuthService,
-    private router: Router
+    private store: Store
   ) {}
 
   getErrorMessage(): string {
@@ -51,13 +51,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     const val = this.loginForm.value;
 
     if (val.email && val.password) {
-      this.authService
-        .login(val.email, val.password)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(() => {
-          this.authService.logIn(true);
-          this.router.navigateByUrl('/');
-        });
+      this.store.dispatch(new LoginAction(val));
     }
   }
 
@@ -65,12 +59,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     const val = this.loginForm.value;
 
     if (val.email && val.password) {
-      this.authService
-        .register(val.email, val.password)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(() => {
-          this.router.navigateByUrl('/');
-        });
+      this.store.dispatch(new RegisterAction(val));
     }
   }
 }

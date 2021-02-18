@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
 @Component({
   selector: 'app-root',
@@ -8,9 +7,5 @@ import { AuthService } from './services/auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  constructor(public authService: AuthService, private router: Router) {}
-  logout(): void {
-    this.authService.logIn(false);
-    this.router.navigateByUrl('/login');
-  }
+  constructor(public authService: AuthService) {}
 }

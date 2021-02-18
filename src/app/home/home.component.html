@@ -7,7 +7,7 @@
             <mat-expansion-panel-header>
               <mat-panel-title> General styles </mat-panel-title>
             </mat-expansion-panel-header>
-            {{ formStyle$ | ngrxPush | json }}
+            <pre>{{ formStyle$ | ngrxPush | json }}</pre>
             <mat-form-field>
               <mat-label>Styles</mat-label>
               <input
@@ -21,6 +21,8 @@
         <ng-container *ngIf="portal">
           <mat-expansion-panel
             *ngFor="let panel of formElementList$ | ngrxPush; let idx = index"
+            (opened)="openGroup(idx)"
+            (closed)="closeGroup(idx)"
           >
             <mat-expansion-panel-header>
               <mat-panel-title>

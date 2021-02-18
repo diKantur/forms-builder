@@ -2,13 +2,13 @@
   <a
     mat-flat-button
     routerLink=""
-    *ngIf="authService.isLogged"
+    *ngIf="authService.isLoggedIn()"
     routerLinkActive="active"
     [routerLinkActiveOptions]="{ exact: true }"
   >
     Home
   </a>
-  <a mat-flat-button disabled routerLink="" *ngIf="!authService.isLogged">
+  <a mat-flat-button disabled routerLink="" *ngIf="authService.isLoggedOut()">
     Home
   </a>
   <a
@@ -16,16 +16,16 @@
     color="accent"
     routerLink="login"
     routerLinkActive="active"
-    *ngIf="!authService.isLogged"
+    *ngIf="authService.isLoggedOut()"
   >
     Login
   </a>
   <a
     mat-flat-button
     color="accent"
-    (click)="logout()"
-    routerLinkActive="active"
-    *ngIf="authService.isLogged"
+    (click)="authService.logout()"
+    routerLink="login"
+    *ngIf="authService.isLoggedIn()"
   >
     Logout
   </a>

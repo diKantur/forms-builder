@@ -7,10 +7,10 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class PortalService {
   constructor() {}
-  private _portal$ = new BehaviorSubject<CdkPortal>(null);
+  private _portal$ = new BehaviorSubject<any[]>(null);
   public portal$ = this._portal$.asObservable();
 
-  changePortal(portal: CdkPortal): void {
+  changePortal(portal: any[]): void {
     this._portal$.next(portal);
   }
 }

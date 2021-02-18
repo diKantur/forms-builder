@@ -3,6 +3,7 @@ import {
   OnInit,
   OnDestroy,
   ChangeDetectionStrategy,
+  ViewChildren,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { moveItemInArray, copyArrayItem } from '@angular/cdk/drag-drop';
@@ -16,6 +17,7 @@ import {
 } from '../core/store/index';
 import { takeUntil } from 'rxjs/operators';
 import { PortalService } from '../services/portal.service';
+import { CdkPortalOutlet } from '@angular/cdk/portal';
 
 @Component({
   selector: 'app-home',
@@ -34,9 +36,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   elementList$: Observable<any>;
 
-  portalOutlet;
+  portalList = [];
 
   constructor(private store: Store, public portalService: PortalService) {}
+
+  @ViewChildren(CdkPortalOutlet) cdk: any[];
 
   ngOnInit(): void {
     this.formStyle$ = this.store.select(getFormStyle);
@@ -51,7 +55,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
 
     this.portalService.portal$.pipe(takeUntil(this.destroy$)).subscribe((v) => {
-      this.portalOutlet = v;
+      if (v) {
+        this.portalList[v[0]] = v[1];
+      }
     });
   }
 
@@ -60,8 +66,16 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  onEnterClick(val, idx = ''): void {
-    let obj = this.switch(idx);
+  openGroup(idx: number): void {
+    this.portalList[idx].attach(this.cdk.filter((val, i) => i === idx)[0]);
+  }
+
+  closeGroup(idx: number): void {
+    this.portalList[idx].detach();
+  }
+
+  onEnterClick(val: any, idx: number | string = ''): void {
+    let obj = idx === '' ? this.formStyle : this.formElementList[idx].style;
 
     val = val
       .split(';')
@@ -72,10 +86,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
 
     this.store.dispatch(new EnterAction({ list: idx, data: obj }));
-  }
-
-  switch(idx) {
-    return idx === '' ? this.formStyle : this.formElementList[idx].style;
   }
 
   drop(event: any): void {

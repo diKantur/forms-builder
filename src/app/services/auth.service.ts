@@ -7,8 +7,6 @@ import { Observable } from 'rxjs';
 const URL = 'http://127.0.0.1:4201';
 @Injectable()
 export class AuthService {
-  isLogged = false;
-
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string): Observable<object> {
@@ -18,11 +16,11 @@ export class AuthService {
     );
   }
 
-  register(email, password): Observable<object> {
+  register(email: any, password: any): Observable<object> {
     return this.http.post(URL + '/signup', { email, password });
   }
 
-  private setSession(authResult): void {
+  private setSession(authResult: any): void {
     const expiresAt = moment().add(2, 'hours');
 
     localStorage.setItem('id_token', authResult.accessToken);
@@ -32,13 +30,6 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
-  }
-  public logIn(isLoggedIn): void {
-    if (isLoggedIn) {
-      this.isLogged = true;
-    } else {
-      this.isLogged = false;
-    }
   }
 
   public isLoggedIn(): boolean {

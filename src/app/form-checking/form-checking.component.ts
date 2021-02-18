@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-form-checking',
@@ -7,12 +6,10 @@ import { Store } from '@ngrx/store';
   styleUrls: ['./form-checking.component.css'],
 })
 export class FormCheckingComponent implements OnInit {
-  @Input() item;
-  @Input() idx;
+  @Input() item: any;
+  @Input() idx: number;
 
   constructor() {}
 
   ngOnInit(): void {}
-
-  ngOnDestroy(): void {}
 }
