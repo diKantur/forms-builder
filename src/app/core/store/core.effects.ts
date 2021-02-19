@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect } from '@ngrx/effects';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import {
   ActionTypes,
   UpdateStyleAction,
@@ -20,7 +20,7 @@ export class Effects {
 
   onEnter$ = createEffect(() =>
     this.actions$.pipe(
-      filter((action) => ActionTypes.Enter === action.type),
+      ofType(ActionTypes.Enter),
       map((action: any) => action.payload),
       switchMap((action) => of(new UpdateStyleAction(action)))
     )
@@ -28,13 +28,12 @@ export class Effects {
 
   onLogin$ = createEffect(() =>
     this.actions$.pipe(
-      filter((action) => ActionTypes.Login === action.type),
+      ofType(ActionTypes.Login),
       map((action: any) => action.payload),
       switchMap((action) => {
-        this.authService.login(action.email, action.password).subscribe(() => {
-          this.router.navigateByUrl('/');
-        });
-
+        this.authService
+          .login(action.email, action.password)
+          .forEach(() => this.router.navigateByUrl('/'));
         return of(new LoggedAction(action));
       })
     )
@@ -42,14 +41,10 @@ export class Effects {
 
   onRegister$ = createEffect(() =>
     this.actions$.pipe(
-      filter((action) => ActionTypes.Register === action.type),
+      ofType(ActionTypes.Register),
       map((action: any) => action.payload),
       switchMap((action) => {
-        this.authService
-          .register(action.email, action.password)
-          .subscribe(() => {
-            this.router.navigateByUrl('/');
-          });
+        this.authService.register(action.email, action.password);
         return of(new RegisteredAction(action));
       })
     )

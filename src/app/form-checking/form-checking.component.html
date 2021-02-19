@@ -1,4 +1,4 @@
-<ng-container *ngIf="item.type === 'input'">
+<ng-container *ngIf="item.type === type.Input">
   <mat-form-field cdkDrag [ngStyle]="item.style">
     <mat-label>input</mat-label>
     <input matInput />
@@ -7,7 +7,7 @@
   <app-form-settings [item]="item.style" [idx]="idx"></app-form-settings>
 </ng-container>
 
-<ng-container *ngIf="item.type === 'button'">
+<ng-container *ngIf="item.type === type.Button">
   <button mat-flat-button color="primary" cdkDrag [ngStyle]="item.style">
     button
   </button>
@@ -15,7 +15,7 @@
   <app-form-settings [item]="item.style" [idx]="idx"></app-form-settings>
 </ng-container>
 
-<ng-container *ngIf="item.type === 'checkbox'">
+<ng-container *ngIf="item.type === type.Checkbox">
   <mat-checkbox color="primary" cdkDrag [ngStyle]="item.style">
     checkbox
   </mat-checkbox>
@@ -23,7 +23,7 @@
   <app-form-settings [item]="item.style" [idx]="idx"></app-form-settings>
 </ng-container>
 
-<ng-container *ngIf="item.type === 'select'">
+<ng-container *ngIf="item.type === type.Select">
   <mat-form-field>
     <mat-label>select</mat-label>
     <mat-select cdkDrag [ngStyle]="item.style">
@@ -34,7 +34,7 @@
   <app-form-settings [item]="item.style" [idx]="idx"></app-form-settings>
 </ng-container>
 
-<ng-container *ngIf="item.type === 'textarea'">
+<ng-container *ngIf="item.type === type.Textarea">
   <mat-form-field cdkDrag>
     <mat-label>textarea</mat-label>
     <textarea matInput [ngStyle]="item.style"></textarea>

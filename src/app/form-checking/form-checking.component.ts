@@ -8,8 +8,15 @@ import { Component, Input, OnInit } from '@angular/core';
 export class FormCheckingComponent implements OnInit {
   @Input() item: any;
   @Input() idx: number;
-
+  type = FormElementType;
   constructor() {}
 
   ngOnInit(): void {}
+}
+enum FormElementType {
+  Input = 'input',
+  Button = 'button',
+  Checkbox = 'checkbox',
+  Select = 'select',
+  Textarea = 'textarea',
 }

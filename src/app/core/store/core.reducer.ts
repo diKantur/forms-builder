@@ -13,22 +13,15 @@ export const INIT_STATE = {
 };
 
 function switcher(state, { list, data }): any {
-  switch (list === '') {
-    case true:
-      return { formStyle: { ...data } };
-    case false:
-      return {
+  return list === ''
+    ? { formStyle: { ...data } }
+    : {
         formElementList: [
-          ...state.formElementList.map((v: any, i: any) => {
-            if (i === list) {
-              return { ...v, style: { ...data } };
-            } else {
-              return v;
-            }
-          }),
+          ...state.formElementList.map((v: any, i: any) =>
+            i === list ? { ...v, style: { ...data } } : v
+          ),
         ],
       };
-  }
 }
 
 export function reducer(state = INIT_STATE, action: Actions): any {

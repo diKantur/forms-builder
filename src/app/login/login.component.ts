@@ -31,10 +31,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     const val = this.loginForm.value;
 
     if (val.email.hasError('required')) {
-      return 'You must enter a value';
+      return AuthErrorType.required;
     }
 
-    return val.email.hasError('email') ? 'Not a valid email' : '';
+    return val.email.hasError('email') ? AuthErrorType.email : '';
   }
 
   ngOnInit(): void {
@@ -62,4 +62,9 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.store.dispatch(new RegisterAction(val));
     }
   }
+}
+
+enum AuthErrorType {
+  required = 'You must enter a value',
+  email = 'Not a valid email',
 }
