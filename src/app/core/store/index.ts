@@ -6,7 +6,7 @@ export const reducers: ActionReducerMap<any> = {
   core: fromCore.reducer,
 };
 
-export const getCoreState = (state) => state.core;
+export const getCoreState = (state: any) => state.core;
 
 export const getState = createSelector(getCoreState, fromCore.getState);
 export const getElementList = createSelector(

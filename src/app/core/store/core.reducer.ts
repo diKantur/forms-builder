@@ -1,5 +1,11 @@
 import { Actions, ActionTypes } from './core.actions';
 
+export interface State {
+  formElementList: any[];
+  formStyle: {};
+  elementList: any[];
+}
+
 export const INIT_STATE = {
   formElementList: [],
   formStyle: {},
@@ -12,30 +18,30 @@ export const INIT_STATE = {
   ],
 };
 
-function switcher(state, { list, data }): any {
-  return list === ''
-    ? { formStyle: { ...data } }
-    : {
-        formElementList: [
-          ...state.formElementList.map((v: any, i: any) =>
-            i === list ? { ...v, style: { ...data } } : v
-          ),
-        ],
-      };
-}
-
-export function reducer(state = INIT_STATE, action: Actions): any {
-  switch (action.type) {
+export function reducer(state = INIT_STATE, { type, payload }: Actions): any {
+  switch (type) {
     case ActionTypes.UpdateStyleAction:
-      return { ...state, ...switcher(state, { ...action.payload }) };
+      const data = { ...state };
+
+      if (payload.idx === '') {
+        data.formStyle = { ...payload.data };
+      } else {
+        data.formElementList = [
+          ...state.formElementList.map((v, i) =>
+            i === payload.idx ? { ...v, style: payload.data } : v
+          ),
+        ];
+      }
+
+      return { ...state, ...data };
     case ActionTypes.Drop:
-      return { ...state, ...action.payload };
+      return { ...state, ...payload };
     default:
       return state;
   }
 }
 
-export const getState = (state) => state;
-export const getElementList = (state) => state.elementList;
-export const getFormElementList = (state) => state.formElementList;
-export const getFormStyle = (state) => state.formStyle;
+export const getState = (state: State) => state;
+export const getElementList = (state: State) => state.elementList;
+export const getFormElementList = (state: State) => state.formElementList;
+export const getFormStyle = (state: State) => state.formStyle;

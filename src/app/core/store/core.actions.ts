@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { State } from './core.reducer';
 
 export enum ActionTypes {
   UpdateStyleAction = '[App] UpdateStyleAction',
@@ -11,32 +12,32 @@ export enum ActionTypes {
 }
 export class UpdateStyleAction implements Action {
   readonly type = ActionTypes.UpdateStyleAction;
-  constructor(public payload) {}
+  constructor(public payload: any) {}
 }
 export class EnterAction implements Action {
   readonly type = ActionTypes.Enter;
-  constructor(public payload) {}
+  constructor(public payload: any) {}
 }
 
 export class DropAction implements Action {
   readonly type = ActionTypes.Drop;
-  constructor(public payload) {}
+  constructor(public payload: any) {}
 }
 export class LoginAction implements Action {
   readonly type = ActionTypes.Login;
-  constructor(public payload) {}
+  constructor(public payload: any) {}
 }
 export class RegisterAction implements Action {
   readonly type = ActionTypes.Register;
-  constructor(public payload) {}
+  constructor(public payload: any) {}
 }
 export class LoggedAction implements Action {
   readonly type = ActionTypes.Logged;
-  constructor(public payload) {}
+  constructor(public payload: any) {}
 }
 export class RegisteredAction implements Action {
   readonly type = ActionTypes.Registered;
-  constructor(public payload) {}
+  constructor(public payload: any) {}
 }
 
 export type Actions =

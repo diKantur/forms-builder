@@ -75,17 +75,17 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onEnterClick(val: any, idx: number | string = ''): void {
-    let obj = idx === '' ? this.formStyle : this.formElementList[idx].style;
+    let data = idx === '' ? this.formStyle : this.formElementList[idx].style;
 
     val = val
       .split(';')
       .map((v: string) => v?.split(':').map((e: string) => e.trim()));
 
     val?.map((v: any[]) => {
-      obj = { ...obj, [v[0]]: v[1] };
+      data = { ...data, [v[0]]: v[1] };
     });
 
-    this.store.dispatch(new EnterAction({ list: idx, data: obj }));
+    this.store.dispatch(new EnterAction({ idx, data }));
   }
 
   drop(event: any): void {
