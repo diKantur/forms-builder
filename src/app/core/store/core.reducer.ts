@@ -8,7 +8,7 @@ export interface State {
 
 export const INIT_STATE = {
   formElementList: [],
-  formProp: {},
+  formProp: { style: {} },
   elementList: [
     { style: {}, value: 'input', placeholder: 'input', required: 'false' },
     { style: {}, value: 'button', placeholder: 'button' },

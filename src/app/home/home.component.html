@@ -7,7 +7,7 @@
             <mat-expansion-panel-header>
               <mat-panel-title> General styles </mat-panel-title>
             </mat-expansion-panel-header>
-            <pre>{{ formProp.style | json }}</pre>
+            <pre>{{ formProp$ | ngrxPush | text }}</pre>
             <app-input
               placeholder="Style"
               formControlName="input"
@@ -43,7 +43,7 @@
 
   <section class="builder">
     <form
-      [ngStyle]="formProp.style"
+      [ngStyle]="formProp$ | ngrxPush"
       cdkDropList
       #formList="cdkDropList"
       [cdkDropListData]="formElementList"

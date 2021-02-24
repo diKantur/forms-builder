@@ -15,7 +15,7 @@ import {
   getFormElementList,
   getFormProp,
 } from '../core/store/index';
-import { takeUntil } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 import { PortalService } from '../services/portal.service';
 import { CdkPortalOutlet } from '@angular/cdk/portal';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -45,15 +45,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   @ViewChildren(CdkPortalOutlet) cdk: any[];
 
   ngOnInit(): void {
-    this.formProp$ = this.store.select(getFormProp);
+    this.formProp$ = this.store.select(getFormProp).pipe(map((v) => v.style));
     this.formElementList$ = this.store.select(getFormElementList);
     this.elementList$ = this.store.select(getElementList);
 
     this.formElementList$.pipe(takeUntil(this.destroy$)).subscribe((v: any) => {
       this.formElementList = [...v.map((val: any) => val)];
-    });
-    this.formProp$.pipe(takeUntil(this.destroy$)).subscribe((v: any) => {
-      this.formProp = { ...v };
     });
 
     this.portalService.portal$.pipe(takeUntil(this.destroy$)).subscribe((v) => {
