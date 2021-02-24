@@ -24,6 +24,7 @@ import { AuthService } from './services/auth.service';
 import { AuthInterceptor } from './services/auth.interceptor';
 
 import { MatModule } from './mat.module';
+import { InputComponent } from './components/input/input.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { MatModule } from './mat.module';
     HomeComponent,
     FormCheckingComponent,
     FormSettingsComponent,
+    InputComponent,
   ],
   imports: [
     BrowserModule,

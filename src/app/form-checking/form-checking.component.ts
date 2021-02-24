@@ -8,6 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class FormCheckingComponent implements OnInit {
   @Input() item: any;
   @Input() idx: number;
+  @Input() placeholder: string;
   type = FormElementType;
   constructor() {}
 

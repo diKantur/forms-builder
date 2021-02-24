@@ -1,0 +1,9 @@
+<mat-form-field>
+  <mat-label>{{ placeholder }}</mat-label>
+  <input
+    matInput
+    (keydown.enter)="onEnterClick($event)"
+    [type]="isPassword"
+    [required]="required"
+  />
+</mat-form-field>

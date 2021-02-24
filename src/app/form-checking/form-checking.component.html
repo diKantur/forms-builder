@@ -1,31 +1,35 @@
-<ng-container *ngIf="item.type === type.Input">
-  <mat-form-field cdkDrag [ngStyle]="item.style">
-    <mat-label>input</mat-label>
-    <input matInput />
-  </mat-form-field>
+<ng-container *ngIf="item.value === type.Input">
+  <app-input
+    cdkDrag
+    [ngStyle]="item.style"
+    [placeholder]="item.placeholder"
+    [required]="item.required"
+    [isPassword]="item.type"
+  >
+  </app-input>
 
   <app-form-settings [item]="item.style" [idx]="idx"></app-form-settings>
 </ng-container>
 
-<ng-container *ngIf="item.type === type.Button">
+<ng-container *ngIf="item.value === type.Button">
   <button mat-flat-button color="primary" cdkDrag [ngStyle]="item.style">
-    button
+    {{ item.placeholder }}
   </button>
 
   <app-form-settings [item]="item.style" [idx]="idx"></app-form-settings>
 </ng-container>
 
-<ng-container *ngIf="item.type === type.Checkbox">
+<ng-container *ngIf="item.value === type.Checkbox">
   <mat-checkbox color="primary" cdkDrag [ngStyle]="item.style">
-    checkbox
+    {{ item.placeholder }}
   </mat-checkbox>
 
   <app-form-settings [item]="item.style" [idx]="idx"></app-form-settings>
 </ng-container>
 
-<ng-container *ngIf="item.type === type.Select">
+<ng-container *ngIf="item.value === type.Select">
   <mat-form-field>
-    <mat-label>select</mat-label>
+    <mat-label>{{ item.placeholder }}</mat-label>
     <mat-select cdkDrag [ngStyle]="item.style">
       <mat-option value="option">option</mat-option>
     </mat-select>
@@ -34,9 +38,9 @@
   <app-form-settings [item]="item.style" [idx]="idx"></app-form-settings>
 </ng-container>
 
-<ng-container *ngIf="item.type === type.Textarea">
+<ng-container *ngIf="item.value === type.Textarea">
   <mat-form-field cdkDrag>
-    <mat-label>textarea</mat-label>
+    <mat-label>{{ item.placeholder }}</mat-label>
     <textarea matInput [ngStyle]="item.style"></textarea>
   </mat-form-field>
 

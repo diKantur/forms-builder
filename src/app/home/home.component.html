@@ -1,20 +1,18 @@
 <main class="main">
   <section class="styles">
-    <mat-accordion>
+    <mat-accordion [formGroup]="form">
       <ng-container *ngrxLet="portalService.portal$; let portal">
         <ng-container>
           <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title> General styles </mat-panel-title>
             </mat-expansion-panel-header>
-            <pre>{{ formStyle$ | ngrxPush | json }}</pre>
-            <mat-form-field>
-              <mat-label>Styles</mat-label>
-              <input
-                matInput
-                (keydown.enter)="onEnterClick($event.target.value)"
-              />
-            </mat-form-field>
+            <pre>{{ formProp.style | json }}</pre>
+            <app-input
+              placeholder="Style"
+              formControlName="input"
+              (enterClick)="onEnterClick($event.target.value)"
+            ></app-input>
           </mat-expansion-panel>
         </ng-container>
 
@@ -26,19 +24,17 @@
           >
             <mat-expansion-panel-header>
               <mat-panel-title>
-                {{ panel.type }}
+                {{ panel.value + idx }}
               </mat-panel-title>
             </mat-expansion-panel-header>
 
             <ng-template [cdkPortalOutlet]="portalOutlet"></ng-template>
 
-            <mat-form-field>
-              <mat-label>Styles</mat-label>
-              <input
-                matInput
-                (keydown.enter)="onEnterClick($event.target.value, idx)"
-              />
-            </mat-form-field>
+            <app-input
+              placeholder="Style"
+              formControlName="input"
+              (enterClick)="onEnterClick($event.target.value, idx)"
+            ></app-input>
           </mat-expansion-panel>
         </ng-container>
       </ng-container>
@@ -47,7 +43,7 @@
 
   <section class="builder">
     <form
-      [ngStyle]="formStyle$ | ngrxPush"
+      [ngStyle]="formProp.style"
       cdkDropList
       #formList="cdkDropList"
       [cdkDropListData]="formElementList"
@@ -74,6 +70,7 @@
       <app-form-checking
         *ngFor="let item of elementList$ | ngrxPush"
         [item]="item"
+        placeholder="input"
       ></app-form-checking>
     </form>
   </section>

@@ -13,11 +13,12 @@ import { DropAction, EnterAction } from '../core/store/core.actions';
 import {
   getElementList,
   getFormElementList,
-  getFormStyle,
+  getFormProp,
 } from '../core/store/index';
 import { takeUntil } from 'rxjs/operators';
 import { PortalService } from '../services/portal.service';
 import { CdkPortalOutlet } from '@angular/cdk/portal';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -28,8 +29,8 @@ import { CdkPortalOutlet } from '@angular/cdk/portal';
 export class HomeComponent implements OnInit, OnDestroy {
   destroy$ = new Subject<void>();
 
-  formStyle$: Observable<any>;
-  formStyle = {};
+  formProp$: Observable<any>;
+  formProp = { style: {} };
 
   formElementList$: Observable<any>;
   formElementList = [];
@@ -37,21 +38,22 @@ export class HomeComponent implements OnInit, OnDestroy {
   elementList$: Observable<any>;
 
   portalList = [];
+  public form: FormGroup;
 
   constructor(private store: Store, public portalService: PortalService) {}
 
   @ViewChildren(CdkPortalOutlet) cdk: any[];
 
   ngOnInit(): void {
-    this.formStyle$ = this.store.select(getFormStyle);
+    this.formProp$ = this.store.select(getFormProp);
     this.formElementList$ = this.store.select(getFormElementList);
     this.elementList$ = this.store.select(getElementList);
 
     this.formElementList$.pipe(takeUntil(this.destroy$)).subscribe((v: any) => {
       this.formElementList = [...v.map((val: any) => val)];
     });
-    this.formStyle$.pipe(takeUntil(this.destroy$)).subscribe((v: any) => {
-      this.formStyle = { ...v };
+    this.formProp$.pipe(takeUntil(this.destroy$)).subscribe((v: any) => {
+      this.formProp = { ...v };
     });
 
     this.portalService.portal$.pipe(takeUntil(this.destroy$)).subscribe((v) => {
@@ -59,6 +61,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.portalList[v[0]] = v[1];
       }
     });
+    this.initForm();
   }
 
   ngOnDestroy(): void {
@@ -75,14 +78,28 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onEnterClick(val: any, idx: number | string = ''): void {
-    let data = idx === '' ? this.formStyle : this.formElementList[idx].style;
+    let data = idx === '' ? this.formProp : this.formElementList[idx];
 
     val = val
       .split(';')
       .map((v: string) => v?.split(':').map((e: string) => e.trim()));
 
-    val?.map((v: any[]) => {
-      data = { ...data, [v[0]]: v[1] };
+    val?.forEach((v: any[]) => {
+      if (v[0] === 'placeholder' && data[v[0]]) {
+        data = { ...data, [v[0]]: v[1] };
+        data = { ...data, type: v[1] === 'password' ? 'password' : 'text' };
+      }
+      if (v[0] === 'required' && data[v[0]]) {
+        data = { ...data, [v[0]]: v[1] };
+      }
+      if (
+        (v[0] === 'required' && !data[v[0]]) ||
+        (v[0] === 'placeholder' && !data[v[0]])
+      ) {
+        return;
+      } else {
+        data = { ...data, style: { ...data.style, [v[0]]: v[1] } };
+      }
     });
 
     this.store.dispatch(new EnterAction({ idx, data }));
@@ -106,5 +123,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.store.dispatch(
       new DropAction({ formElementList: [...this.formElementList] })
     );
+  }
+
+  private initForm(): void {
+    this.form = new FormGroup({
+      input: new FormControl(''),
+    });
   }
 }

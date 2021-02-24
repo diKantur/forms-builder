@@ -2,19 +2,19 @@ import { Actions, ActionTypes } from './core.actions';
 
 export interface State {
   formElementList: any[];
-  formStyle: {};
+  formProp: { style: {} };
   elementList: any[];
 }
 
 export const INIT_STATE = {
   formElementList: [],
-  formStyle: {},
+  formProp: {},
   elementList: [
-    { style: {}, type: 'input' },
-    { style: {}, type: 'button' },
-    { style: {}, type: 'checkbox' },
-    { style: {}, type: 'select' },
-    { style: {}, type: 'textarea' },
+    { style: {}, value: 'input', placeholder: 'input', required: 'false' },
+    { style: {}, value: 'button', placeholder: 'button' },
+    { style: {}, value: 'checkbox', placeholder: 'checkbox' },
+    { style: {}, value: 'select', placeholder: 'select' },
+    { style: {}, value: 'textarea', placeholder: 'textarea' },
   ],
 };
 
@@ -24,11 +24,11 @@ export function reducer(state = INIT_STATE, { type, payload }: Actions): any {
       const data = { ...state };
 
       if (payload.idx === '') {
-        data.formStyle = { ...payload.data };
+        data.formProp = { ...payload.data };
       } else {
         data.formElementList = [
           ...state.formElementList.map((v, i) =>
-            i === payload.idx ? { ...v, style: payload.data } : v
+            i === payload.idx ? { ...v, ...payload.data } : v
           ),
         ];
       }
@@ -44,4 +44,4 @@ export function reducer(state = INIT_STATE, { type, payload }: Actions): any {
 export const getState = (state: State) => state;
 export const getElementList = (state: State) => state.elementList;
 export const getFormElementList = (state: State) => state.formElementList;
-export const getFormStyle = (state: State) => state.formStyle;
+export const getFormProp = (state: State) => state.formProp;

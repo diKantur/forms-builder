@@ -17,4 +17,4 @@ export const getFormElementList = createSelector(
   getCoreState,
   fromCore.getFormElementList
 );
-export const getFormStyle = createSelector(getCoreState, fromCore.getFormStyle);
+export const getFormProp = createSelector(getCoreState, fromCore.getFormProp);
