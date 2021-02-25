@@ -26,6 +26,8 @@ import { AuthInterceptor } from './services/auth.interceptor';
 import { MatModule } from './mat.module';
 import { InputComponent } from './components/input/input.component';
 import { TextPipe } from './text.pipe';
+import { AbstractCVAComponent } from './abstract-classes/cva.component';
+import { AbstractInputComponent } from './abstract-classes/input.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,8 @@ import { TextPipe } from './text.pipe';
     FormSettingsComponent,
     InputComponent,
     TextPipe,
+    AbstractCVAComponent,
+    AbstractInputComponent,
   ],
   imports: [
     BrowserModule,

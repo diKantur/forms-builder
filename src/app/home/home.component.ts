@@ -18,7 +18,7 @@ import {
 import { map, takeUntil } from 'rxjs/operators';
 import { PortalService } from '../services/portal.service';
 import { CdkPortalOutlet } from '@angular/cdk/portal';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
