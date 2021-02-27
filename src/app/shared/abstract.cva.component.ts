@@ -12,16 +12,16 @@ import {
   template: '',
 })
 export class AbstractCVAComponent<T = any> implements ControlValueAccessor {
-  private _value: T;
+  private currentValue: T;
 
   @Input()
   set value(value: T) {
-    this._value = value;
-    this.writeValue(this._value);
+    this.currentValue = value;
+    this.writeValue(this.currentValue);
   }
 
   get value(): T {
-    return this._value;
+    return this.currentValue;
   }
 
   protected cdRef: ChangeDetectorRef;
@@ -36,8 +36,8 @@ export class AbstractCVAComponent<T = any> implements ControlValueAccessor {
   onTouched = () => {};
 
   writeValue(value: T): void {
-    this._value = value;
-    this.onChange(this._value);
+    this.currentValue = value;
+    this.onChange(this.currentValue);
     setTimeout(() => this.cdRef.detectChanges(), 0);
   }
 

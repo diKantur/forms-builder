@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 @Component({
   selector: 'app-form-checking',
   templateUrl: './form-checking.component.html',
-  styleUrls: ['./form-checking.component.css'],
+  styleUrls: ['./form-checking.component.scss'],
 })
 export class FormCheckingComponent implements OnInit {
   @Input() item: any;

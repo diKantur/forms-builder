@@ -23,11 +23,12 @@ import { AuthGuard } from './services/auth.guard';
 import { AuthService } from './services/auth.service';
 import { AuthInterceptor } from './services/auth.interceptor';
 
-import { MatModule } from './mat.module';
+import { MatModule } from './shared/mat.module';
 import { InputComponent } from './components/input/input.component';
-import { TextPipe } from './text.pipe';
-import { AbstractCVAComponent } from './abstract-classes/cva.component';
-import { AbstractInputComponent } from './abstract-classes/input.component';
+import { TextPipe } from './shared/text.pipe';
+import { AbstractCVAComponent } from './shared/abstract.cva.component';
+import { AbstractInputComponent } from './shared/abstract.input.component';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { AbstractInputComponent } from './abstract-classes/input.component';
     TextPipe,
     AbstractCVAComponent,
     AbstractInputComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,

@@ -3,7 +3,21 @@
   <input
     matInput
     (keydown.enter)="onEnterClick($event)"
-    [type]="isPassword"
+    [type]="type === 'password' && hide ? 'password' : 'text'"
     [required]="required"
+    [(ngModel)]="value"
   />
+
+  <mat-error *ngIf="errorValue">{{ errorValue }}</mat-error>
+
+  <button
+    *ngIf="isPassword"
+    mat-icon-button
+    matSuffix
+    (click)="hide = !hide"
+    [attr.aria-label]="'Hide password'"
+    [attr.aria-pressed]="hide"
+  >
+    <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+  </button>
 </mat-form-field>

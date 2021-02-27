@@ -13,13 +13,14 @@ import { AuthService } from '../services/auth.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  styleUrls: ['./login.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   hide = true;
   destroy$ = new Subject<void>();
+  errorValue: string = null;
 
   constructor(
     private fb: FormBuilder,
@@ -31,10 +32,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     const val = this.loginForm.value;
 
     if (val.email.hasError('required')) {
-      return AuthErrorType.required;
+      return (this.errorValue = AuthErrorType.required);
     }
 
-    return val.email.hasError('email') ? AuthErrorType.email : '';
+    this.errorValue = val.email.hasError('email') ? AuthErrorType.email : '';
   }
 
   ngOnInit(): void {
@@ -42,10 +43,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       email: ['', Validators.required],
       password: ['', Validators.required],
     });
-  }
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
   login(): void {
     const val = this.loginForm.value;

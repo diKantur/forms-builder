@@ -8,7 +8,7 @@ import { PortalService } from '../services/portal.service';
 @Component({
   selector: 'app-form-settings',
   templateUrl: './form-settings.component.html',
-  styleUrls: ['./form-settings.component.css'],
+  styleUrls: ['./form-settings.component.scss'],
 })
 export class FormSettingsComponent implements OnInit {
   @Input() item: any;

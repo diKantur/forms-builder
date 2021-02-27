@@ -23,7 +23,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+  styleUrls: ['./home.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit, OnDestroy {
@@ -84,7 +84,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     val?.forEach((v: any[]) => {
       if (v[0] === 'placeholder' && data[v[0]]) {
         data = { ...data, [v[0]]: v[1] };
-        data = { ...data, type: v[1] === 'password' ? 'password' : 'text' };
       }
       if (v[0] === 'required' && data[v[0]]) {
         data = { ...data, [v[0]]: v[1] };
