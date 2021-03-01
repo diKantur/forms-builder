@@ -1,14 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { LoginAction, RegisterAction } from '../core/store/core.actions';
 import { AuthService } from '../services/auth.service';
+import { AuthErrorType, InputType } from '../shared/enums';
 
 @Component({
   selector: 'app-login',
@@ -21,6 +17,7 @@ export class LoginComponent implements OnInit {
   hide = true;
   destroy$ = new Subject<void>();
   errorValue: string = null;
+  type = InputType;
 
   constructor(
     private fb: FormBuilder,
@@ -35,7 +32,9 @@ export class LoginComponent implements OnInit {
       return (this.errorValue = AuthErrorType.required);
     }
 
-    this.errorValue = val.email.hasError('email') ? AuthErrorType.email : '';
+    this.errorValue = val.email.hasError(this.type.email)
+      ? AuthErrorType.email
+      : '';
   }
 
   ngOnInit(): void {
@@ -59,9 +58,4 @@ export class LoginComponent implements OnInit {
       this.store.dispatch(new RegisterAction(val));
     }
   }
-}
-
-enum AuthErrorType {
-  required = 'You must enter a value',
-  email = 'Not a valid email',
 }

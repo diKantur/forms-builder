@@ -1,0 +1,11 @@
+<a
+  mat-flat-button
+  [routerLink]="link"
+  [routerLinkActive]="active ? active : ''"
+  [routerLinkActiveOptions]="{ exact: true }"
+  [color]="color"
+  [disabled]="isDisabled"
+  [class]="color"
+>
+  {{ title }}
+</a>

@@ -1,7 +1,5 @@
 <main class="main">
   <form [formGroup]="loginForm">
-    <!-- <mat-form-field>
-      <mat-label>Enter your email</mat-label> -->
     <app-input
       placeholder="Enter your email"
       required="true"
@@ -11,7 +9,7 @@
 
     <app-input
       placeholder="Enter your password"
-      type="password"
+      [type]="type.password"
       formControlName="password"
     ></app-input>
 

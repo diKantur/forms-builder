@@ -9,8 +9,8 @@
             </mat-expansion-panel-header>
             <pre>{{ formProp$ | ngrxPush | text }}</pre>
             <app-input
-              placeholder="Style"
-              formControlName="input"
+              placeholder="write styles here"
+              formControlName="form"
               (enterClick)="onEnterClick($event.target.value)"
             ></app-input>
           </mat-expansion-panel>
@@ -20,7 +20,6 @@
           <mat-expansion-panel
             *ngFor="let panel of formElementList$ | ngrxPush; let idx = index"
             (opened)="openGroup(idx)"
-            (closed)="closeGroup(idx)"
           >
             <mat-expansion-panel-header>
               <mat-panel-title>
@@ -31,7 +30,7 @@
             <ng-template [cdkPortalOutlet]="portalOutlet"></ng-template>
 
             <app-input
-              placeholder="Style"
+              placeholder="write styles here"
               formControlName="input"
               (enterClick)="onEnterClick($event.target.value, idx)"
             ></app-input>
@@ -49,12 +48,12 @@
       [cdkDropListData]="formElementList"
       (cdkDropListDropped)="drop($event)"
     >
-      <app-form-checking
+      <app-form-fields
         *ngFor="let item of formElementList$ | ngrxPush; let idx = index"
         [item]="item"
         [idx]="idx"
       >
-      </app-form-checking>
+      </app-form-fields>
     </form>
   </section>
 
@@ -67,11 +66,11 @@
       [cdkDropListConnectedTo]="[formList]"
       (cdkDropListDropped)="drop($event)"
     >
-      <app-form-checking
+      <app-form-fields
         *ngFor="let item of elementList$ | ngrxPush"
         [item]="item"
         placeholder="input"
-      ></app-form-checking>
+      ></app-form-fields>
     </form>
   </section>
 </main>

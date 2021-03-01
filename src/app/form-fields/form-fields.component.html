@@ -28,9 +28,9 @@
 </ng-container>
 
 <ng-container *ngIf="item.value === type.Select">
-  <mat-form-field>
+  <mat-form-field class="field" cdkDrag>
     <mat-label>{{ item.placeholder }}</mat-label>
-    <mat-select cdkDrag [ngStyle]="item.style">
+    <mat-select [ngStyle]="item.style">
       <mat-option value="option">option</mat-option>
     </mat-select>
   </mat-form-field>
@@ -39,7 +39,7 @@
 </ng-container>
 
 <ng-container *ngIf="item.value === type.Textarea">
-  <mat-form-field cdkDrag>
+  <mat-form-field class="field" cdkDrag>
     <mat-label>{{ item.placeholder }}</mat-label>
     <textarea matInput [ngStyle]="item.style"></textarea>
   </mat-form-field>

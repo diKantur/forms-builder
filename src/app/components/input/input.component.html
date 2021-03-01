@@ -1,9 +1,9 @@
-<mat-form-field>
+<mat-form-field class="field">
   <mat-label>{{ placeholder }}</mat-label>
   <input
     matInput
     (keydown.enter)="onEnterClick($event)"
-    [type]="type === 'password' && hide ? 'password' : 'text'"
+    [type]="isPassword() && hide ? inputType.password : inputType.text"
     [required]="required"
     [(ngModel)]="value"
   />
@@ -11,7 +11,7 @@
   <mat-error *ngIf="errorValue">{{ errorValue }}</mat-error>
 
   <button
-    *ngIf="isPassword"
+    *ngIf="isPassword()"
     mat-icon-button
     matSuffix
     (click)="hide = !hide"

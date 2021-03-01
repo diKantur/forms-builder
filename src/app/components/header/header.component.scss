@@ -6,22 +6,4 @@ header {
   align-items: center;
   justify-content: space-between;
   padding: 0.5rem;
-
-  a {
-    &[color].active::after {
-      background-color: $white-clr;
-    }
-    &.active {
-      position: relative;
-      &::after {
-        position: absolute;
-        content: "";
-        left: 0.75rem;
-        right: 0.75rem;
-        bottom: 0.25rem;
-        height: 3px;
-        background-color: rgba($blue-clr, 0.87);
-      }
-    }
-  }
 }

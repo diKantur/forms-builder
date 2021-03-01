@@ -1,6 +1,7 @@
 import { Component, forwardRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { AbstractInputComponent } from '../../shared/abstract.input.component';
+import { InputType } from '../../shared/enums';
 
 @Component({
   selector: 'app-input',
@@ -14,4 +15,6 @@ import { AbstractInputComponent } from '../../shared/abstract.input.component';
     },
   ],
 })
-export class InputComponent extends AbstractInputComponent {}
+export class InputComponent extends AbstractInputComponent {
+  inputType = InputType;
+}

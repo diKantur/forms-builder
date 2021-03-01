@@ -3,7 +3,7 @@ import {
   OnInit,
   OnDestroy,
   ChangeDetectionStrategy,
-  ViewChildren,
+  ViewChild,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { moveItemInArray, copyArrayItem } from '@angular/cdk/drag-drop';
@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store, public portalService: PortalService) {}
 
-  @ViewChildren(CdkPortalOutlet) cdk: any[];
+  @ViewChild(CdkPortalOutlet) cdk: any;
 
   ngOnInit(): void {
     this.formProp$ = this.store.select(getFormProp).pipe(map((v) => v.style));
@@ -67,11 +67,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   openGroup(idx: number): void {
-    this.portalList[idx].attach(this.cdk.filter((val, i) => i === idx)[0]);
-  }
-
-  closeGroup(idx: number): void {
-    this.portalList[idx].detach();
+    if (this.cdk.hasAttached()) {
+      this.cdk.detach();
+    }
+    this.portalList[idx].attach(this.cdk);
   }
 
   onEnterClick(val: any, idx: number | string = ''): void {
@@ -82,20 +81,14 @@ export class HomeComponent implements OnInit, OnDestroy {
       .map((v: string) => v?.split(':').map((e: string) => e.trim()));
 
     val?.forEach((v: any[]) => {
-      if (v[0] === 'placeholder' && data[v[0]]) {
-        data = { ...data, [v[0]]: v[1] };
+      if (v[0] === 'placeholder' || v[0] === 'required') {
+        if (data[v[0]]) {
+          data = { ...data, [v[0]]: v[1] };
+        } else {
+          return;
+        }
       }
-      if (v[0] === 'required' && data[v[0]]) {
-        data = { ...data, [v[0]]: v[1] };
-      }
-      if (
-        (v[0] === 'required' && !data[v[0]]) ||
-        (v[0] === 'placeholder' && !data[v[0]])
-      ) {
-        return;
-      } else {
-        data = { ...data, style: { ...data.style, [v[0]]: v[1] } };
-      }
+      data = { ...data, style: { ...data.style, [v[0]]: v[1] } };
     });
 
     this.store.dispatch(new EnterAction({ idx, data }));
@@ -123,7 +116,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private initForm(): void {
     this.form = new FormGroup({
-      input: new FormControl(''),
+      form: new FormControl(),
+      input: new FormControl(),
     });
   }
 }
