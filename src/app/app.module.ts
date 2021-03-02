@@ -33,6 +33,7 @@ import { TextPipe } from './shared/text.pipe';
 import { AbstractCVAComponent } from './shared/abstract.cva.component';
 import { AbstractInputComponent } from './shared/abstract.input.component';
 import { ButtonLinkComponent } from './components/button-link/button-link.component';
+import { AccordPanelComponent } from './accord-panel/accord-panel.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { ButtonLinkComponent } from './components/button-link/button-link.compon
     AbstractInputComponent,
     HeaderComponent,
     ButtonLinkComponent,
+    AccordPanelComponent,
   ],
   imports: [
     BrowserModule,

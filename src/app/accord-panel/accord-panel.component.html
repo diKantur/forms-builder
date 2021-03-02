@@ -1,0 +1,10 @@
+<mat-expansion-panel (opened)="onOpenedGroup($event)">
+  <mat-expansion-panel-header>
+    <mat-panel-title> {{ title }} </mat-panel-title>
+  </mat-expansion-panel-header>
+  <ng-content></ng-content>
+  <app-input
+    placeholder="write styles here"
+    (enterClick)="onEnterClick($event)"
+  ></app-input>
+</mat-expansion-panel>

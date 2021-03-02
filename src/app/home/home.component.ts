@@ -3,7 +3,7 @@ import {
   OnInit,
   OnDestroy,
   ChangeDetectionStrategy,
-  ViewChild,
+  ViewChildren,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { moveItemInArray, copyArrayItem } from '@angular/cdk/drag-drop';
@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store, public portalService: PortalService) {}
 
-  @ViewChild(CdkPortalOutlet) cdk: any;
+  @ViewChildren(CdkPortalOutlet) cdk: any;
 
   ngOnInit(): void {
     this.formProp$ = this.store.select(getFormProp).pipe(map((v) => v.style));
@@ -54,7 +54,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
 
     this.portalService.portal$.pipe(takeUntil(this.destroy$)).subscribe((v) => {
-      if (v) {
+      if (v && v[0] !== undefined) {
         this.portalList[v[0]] = v[1];
       }
     });
@@ -66,14 +66,22 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  openGroup(idx: number): void {
-    if (this.cdk.hasAttached()) {
-      this.cdk.detach();
+  openGroup(event, idx: number): void {
+    if (this.cdk) {
+      const el = this.cdk.toArray()[idx];
+
+      if (el.hasAttached()) {
+        el.detach();
+      }
+      this.portalList[idx].attach(el);
     }
-    this.portalList[idx].attach(this.cdk);
   }
 
-  onEnterClick(val: any, idx: number | string = ''): void {
+  identify(index, item): any {
+    return item.id;
+  }
+
+  onEnterClick(val: any, idx: any = ''): void {
     let data = idx === '' ? this.formProp : this.formElementList[idx];
 
     val = val
@@ -90,21 +98,29 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
       data = { ...data, style: { ...data.style, [v[0]]: v[1] } };
     });
-
     this.store.dispatch(new EnterAction({ idx, data }));
   }
 
   drop(event: any): void {
+    console.log(event.previousContainer, event.container);
+
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
         event.previousIndex,
         event.currentIndex
       );
+      moveItemInArray(this.portalList, event.previousIndex, event.currentIndex);
     } else {
       copyArrayItem(
         event.previousContainer.data,
         event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+      copyArrayItem(
+        event.previousContainer.data,
+        this.portalList,
         event.previousIndex,
         event.currentIndex
       );
