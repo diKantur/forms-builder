@@ -2,8 +2,8 @@
   <app-input
     cdkDrag
     [ngStyle]="item.style"
-    [placeholder]="item.placeholder"
-    [required]="item.required"
+    [placeholder]="isPlaceholder(item)"
+    [required]="item.style.required"
     [type]="item.type"
   >
   </app-input>
@@ -13,7 +13,7 @@
 
 <ng-container *ngIf="item.value === type.Button">
   <button mat-flat-button color="primary" cdkDrag [ngStyle]="item.style">
-    {{ item.placeholder }}
+    {{ isPlaceholder(item) }}
   </button>
 
   <app-form-settings [item]="item.style" [idx]="idx"></app-form-settings>
@@ -21,7 +21,7 @@
 
 <ng-container *ngIf="item.value === type.Checkbox">
   <mat-checkbox color="primary" cdkDrag [ngStyle]="item.style">
-    {{ item.placeholder }}
+    {{ isPlaceholder(item) }}
   </mat-checkbox>
 
   <app-form-settings [item]="item.style" [idx]="idx"></app-form-settings>
@@ -29,7 +29,7 @@
 
 <ng-container *ngIf="item.value === type.Select">
   <mat-form-field class="field" cdkDrag>
-    <mat-label>{{ item.placeholder }}</mat-label>
+    <mat-label>{{ isPlaceholder(item) }}</mat-label>
     <mat-select [ngStyle]="item.style">
       <mat-option value="option">option</mat-option>
     </mat-select>
@@ -40,7 +40,7 @@
 
 <ng-container *ngIf="item.value === type.Textarea">
   <mat-form-field class="field" cdkDrag>
-    <mat-label>{{ item.placeholder }}</mat-label>
+    <mat-label>{{ isPlaceholder(item) }}</mat-label>
     <textarea matInput [ngStyle]="item.style"></textarea>
   </mat-form-field>
 

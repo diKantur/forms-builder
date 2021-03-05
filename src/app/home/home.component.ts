@@ -82,42 +82,30 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onEnterClick(val: any, idx: any = ''): void {
-    let data = idx === '' ? this.formProp : this.formElementList[idx];
+    let data =
+      idx === '' ? this.formProp.style : this.formElementList[idx].style;
 
-    val = val
+    val
       .split(';')
-      .map((v: string) => v?.split(':').map((e: string) => e.trim()));
-
-    val?.forEach((v: any[]) => {
-      if (v[0] === 'placeholder' || v[0] === 'required') {
-        if (data[v[0]]) {
-          data = { ...data, [v[0]]: v[1] };
-        } else {
+      .map((v: string) => v?.split(':').map((e: string) => e.trim()))
+      .forEach((v: any[]) => {
+        if (v[0] === 'placeholder' && typeof data[v[0]] !== 'string') {
           return;
         }
-      }
-      data = { ...data, style: { ...data.style, [v[0]]: v[1] } };
-    });
+
+        if (v[0] === 'required' && !data[v[0]]) {
+          return;
+        }
+
+        data = { ...data, [v[0]]: v[1] };
+      });
     this.store.dispatch(new EnterAction({ idx, data }));
   }
 
-  drop(event: any): void {
-    console.log(event.previousContainer, event.container);
-
+  movePortals(event): void {
     if (event.previousContainer === event.container) {
-      moveItemInArray(
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
       moveItemInArray(this.portalList, event.previousIndex, event.currentIndex);
     } else {
-      copyArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
       copyArrayItem(
         event.previousContainer.data,
         this.portalList,
@@ -125,6 +113,25 @@ export class HomeComponent implements OnInit, OnDestroy {
         event.currentIndex
       );
     }
+  }
+
+  drop(event: any): void {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    } else {
+      copyArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    }
+
+    this.movePortals(event);
     this.store.dispatch(
       new DropAction({ formElementList: [...this.formElementList] })
     );

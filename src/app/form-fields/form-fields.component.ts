@@ -13,4 +13,8 @@ export class FormFieldsComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+
+  isPlaceholder(item): string {
+    return item.style.placeholder ? item.style.placeholder : item.value;
+  }
 }

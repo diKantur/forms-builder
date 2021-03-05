@@ -16,7 +16,7 @@
         "
         (enterClick)="onEnterClick($event.target.value, idx)"
         (openedGroup)="openGroup(event, idx)"
-        [title]="panel.placeholder"
+        [title]="panel.value + ' ' + panel.style.placeholder"
         ><ng-template [cdkPortalOutlet]="portalOutlet"></ng-template
       ></app-accord-panel>
     </mat-accordion>
